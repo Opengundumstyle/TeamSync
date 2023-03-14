@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+import { sidebarItemsData } from '../data/SidebarData'; 
 
 function Sidebar() {
   return (
@@ -13,6 +14,17 @@ function Sidebar() {
                <BorderColorOutlinedIcon/>
           </NewMessage>
       </WorkspaceContainer>
+      <MainChannels>
+        {
+           sidebarItemsData.map(Item =>(
+            <MainChannelItem>
+            {Item.icon}
+            {Item.text}
+          </MainChannelItem>
+           ))
+        }
+        
+      </MainChannels>
     </Container>
   )
 }
@@ -50,3 +62,14 @@ const NewMessage = styled.div`
      margin-right:20px;
      cursor:pointer;
  `
+
+ const MainChannels = styled.div``
+
+ const MainChannelItem = styled.div`
+    color:rgb(188,171,188);
+    display:grid;
+    grid-template-columns: 15% auto;
+    height:28px;
+    align-items:center;
+    padding-left:19px;
+    cursor:pointer;`
