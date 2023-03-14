@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import { sidebarItemsData } from '../data/SidebarData'; 
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 function Sidebar() {
   return (
@@ -25,6 +26,15 @@ function Sidebar() {
         }
         
       </MainChannels>
+      <ChannelsContaienr>
+           <NewChannelContainer>
+             <div>
+              Channels
+             </div>
+             <AddOutlinedIcon/>
+           </NewChannelContainer>
+         
+      </ChannelsContaienr>
     </Container>
   )
 }
@@ -63,7 +73,8 @@ const NewMessage = styled.div`
      cursor:pointer;
  `
 
- const MainChannels = styled.div``
+ const MainChannels = styled.div`
+  padding-top: 20px`
 
  const MainChannelItem = styled.div`
     color:rgb(188,171,188);
@@ -73,3 +84,16 @@ const NewMessage = styled.div`
     align-items:center;
     padding-left:19px;
     cursor:pointer;`
+
+const ChannelsContaienr = styled.div`
+     color:rgb(188,171,188); 
+     margin-top:10px; `
+
+const NewChannelContainer = styled.div`
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      height:28px;
+      padding-left:19px;
+      padding-right:12px;
+       `
