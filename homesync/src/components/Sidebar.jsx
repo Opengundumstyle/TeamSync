@@ -9,7 +9,7 @@ function Sidebar() {
     <Container>
       <WorkspaceContainer>
           <Name>
-           App Academy
+           Opengundumstyle
           </Name>
           <NewMessage>
                <BorderColorOutlinedIcon/>
