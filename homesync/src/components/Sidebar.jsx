@@ -33,6 +33,14 @@ function Sidebar() {
              </div>
              <AddOutlinedIcon/>
            </NewChannelContainer>
+            <ChannelList>
+               <Channel>
+                   # Channel 1
+               </Channel>
+               <Channel>
+                  # Channel 2
+                </Channel>
+            </ChannelList>
          
       </ChannelsContaienr>
     </Container>
@@ -83,7 +91,10 @@ const NewMessage = styled.div`
     height:28px;
     align-items:center;
     padding-left:19px;
-    cursor:pointer;`
+    cursor:pointer;
+    :hover{
+      background: #350D36;
+  }`
 
 const ChannelsContaienr = styled.div`
      color:rgb(188,171,188); 
@@ -97,3 +108,16 @@ const NewChannelContainer = styled.div`
       padding-left:19px;
       padding-right:12px;
        `
+
+const ChannelList = styled.div``
+
+const Channel = styled.div`
+       height:28px;
+       display:flex;
+       align-items:center;
+       padding-left:19px;
+       cursor:pointer;
+       :hover{
+           background: #350D36;
+       }`
+
