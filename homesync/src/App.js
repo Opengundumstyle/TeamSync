@@ -15,10 +15,11 @@ function App() {
 
   const getChannels = () =>{
     const q = query(collection(db, "room"))
-    const unsub = onSnapshot(q, (querySnapshot) => {
-       querySnapshot.docs.map(d=> {console.log(d.data())
-          });
-    });
+       onSnapshot(q, (querySnapshot) => {
+       setRooms(querySnapshot.docs.map(d => {
+              return {id:d.id,name:d.data().name};
+          }));
+     });
   }
 
   useEffect(()=>{
@@ -26,14 +27,13 @@ function App() {
   },[]);
 
  
-
   return (
     <div className="App">
        <Router>
          <Container>
            <Header/> 
          <Main>
-            <Sidebar/>
+            <Sidebar rooms={rooms}/>
          <Routes>
             <Route path="/room" element={<Chat/>}/> 
             <Route path="/" element={<Login/>}/>

@@ -3,8 +3,25 @@ import styled from 'styled-components'
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import { sidebarItemsData } from '../data/SidebarData'; 
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import db from '../Firebase'
+import {  collection,addDoc} from "firebase/firestore";
 
-function Sidebar() {
+function Sidebar(props) {
+
+  const addChannel =()=>{
+    const promptName = prompt("Enter Channel Name");
+    if (promptName) {
+      const collectionRef = collection(db, "room");
+      addDoc(collectionRef, { name: promptName })
+        .then(() => {
+          console.log("add-channel-success!");
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+        });
+    }
+  }
+ 
   return (
     <Container>
       <WorkspaceContainer>
@@ -31,15 +48,16 @@ function Sidebar() {
              <div>
               Channels
              </div>
-             <AddOutlinedIcon/>
+             <AddOutlinedIcon onClick={addChannel}/>
            </NewChannelContainer>
             <ChannelList>
-               <Channel>
-                   # Channel 1
-               </Channel>
-               <Channel>
-                  # Channel 2
-                </Channel>
+              {
+                props.rooms.map(item =>(
+                  <Channel>
+                  # {item.name}
+                  </Channel>
+                ))
+              }
             </ChannelList>
          
       </ChannelsContaienr>
