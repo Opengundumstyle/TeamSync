@@ -1,12 +1,32 @@
 import './App.css';
 import {BrowserRouter as Router,Route,Routes} from 'react-router-dom'
+import { useEffect,useState } from 'react';
 import Chat from './components/Chat'
 import Login from './components/Login';
 import styled from 'styled-components'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
+import db from './Firebase'
+import { onSnapshot, collection, query} from "firebase/firestore";
 
 function App() {
+  
+  const [rooms,setRooms] = useState([])
+
+  const getChannels = () =>{
+    const q = query(collection(db, "room"))
+    const unsub = onSnapshot(q, (querySnapshot) => {
+       querySnapshot.docs.map(d=> {console.log(d.data())
+          });
+    });
+  }
+
+  useEffect(()=>{
+     getChannels()
+  },[]);
+
+ 
+
   return (
     <div className="App">
        <Router>
