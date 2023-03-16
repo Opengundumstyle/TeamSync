@@ -12,7 +12,7 @@ import { onSnapshot, collection, query} from "firebase/firestore";
 function App() {
   
   const [rooms,setRooms] = useState([])
-  const [user,setUser] = useState()
+  const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')))
 
   const getChannels = () =>{
     const q = query(collection(db, "room"))
@@ -27,21 +27,22 @@ function App() {
      getChannels()
   },[]);
 
+  console.log('log in success',user)
  
   return (
     <div className="App">
        <Router>
            {
             !user? 
-              <Login/>
+              <Login setUser={setUser}/>
               :
               <Container>
-               <Header/> 
+               <Header user={user}/> 
                <Main>
                   <Sidebar rooms={rooms}/>
                <Routes>
                   <Route path="/room" element={<Chat/>}/> 
-                  <Route path="/" element={<Login/>}/>
+                  {/* <Route path="/" element={<Login/>}/> */}
                </Routes>
                </Main>
              </Container>

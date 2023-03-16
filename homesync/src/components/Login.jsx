@@ -1,13 +1,44 @@
 import React from 'react'
 import styled from 'styled-components'
+import {provider} from '../Firebase'
+// import signInWithPopup from 'firebase/auth'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
-function Login() {
+function Login(props) {
+
+const signIn = () =>{
+      const auth = getAuth()
+      signInWithPopup(auth,provider)
+      .then((result) =>{
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+         const token = credential.accessToken;
+        // The signed-in user info.
+          const user = result.user;
+          const newUser = {
+               name:user.displayName,
+               photo:user.photoURL
+          }
+          localStorage.setItem('user', JSON.stringify(newUser))
+          props.setUser(newUser)
+          
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error); 
+      });
+      
+}
+
   return (
     <Container>
         <Content>
             <LogoImg src='https://www.steel-eye.com/hubfs/Slack%20Logo.png'/>
             <h1>Welcome to TeamSync</h1>
-            <SignInButton>
+            <SignInButton onClick={()=>signIn()}>
                Sign In With Google
             </SignInButton>
         </Content>

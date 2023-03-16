@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
-function Header() {
+function Header(props) {
   return (
     <Container>
         <Main>
@@ -17,10 +17,10 @@ function Header() {
         </Main>
         <UserContainer>
               <Name>
-                  Brian
+                 {props.user.name}
               </Name>
               <UserImage>
-                   <img src="https://i.pinimg.com/564x/71/94/58/71945842e6985f179772c11a65bfb3c9.jpg" />
+                   <img src={props.user.photo? props.user.photo:"http://i.imgur.com/6VBx3io.png"} />
               </UserImage>
         </UserContainer>
     </Container>
