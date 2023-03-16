@@ -8,12 +8,14 @@ import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import db from './Firebase'
 import { onSnapshot, collection, query} from "firebase/firestore";
+import { getAuth } from 'firebase/auth';
+
 
 function App() {
   
   const [rooms,setRooms] = useState([])
   const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')))
-
+  
   const getChannels = () =>{
     const q = query(collection(db, "room"))
        onSnapshot(q, (querySnapshot) => {
@@ -22,6 +24,15 @@ function App() {
           }));
      });
   }
+
+  const signOut =()=>{
+     const auth = getAuth()
+     auth.signOut().then(()=>{
+         localStorage.removeItem('user')
+         setUser(null)
+     })
+  }
+
 
   useEffect(()=>{
      getChannels()
@@ -37,12 +48,13 @@ function App() {
               <Login setUser={setUser}/>
               :
               <Container>
-               <Header user={user}/> 
+               <Header signOut={signOut} user={user}/> 
                <Main>
                   <Sidebar rooms={rooms}/>
                <Routes>
-                  <Route path="/room" element={<Chat/>}/> 
+                  <Route path="/room/:channelId" element={<Chat/>}/> 
                   {/* <Route path="/" element={<Login/>}/> */}
+                   <Route path="/" element={"Select or Create Channel"}/>
                </Routes>
                </Main>
              </Container>

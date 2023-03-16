@@ -4,9 +4,19 @@ import styled from 'styled-components'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Chatinput from './Chatinput';
 import ChatMessage from './ChatMessage';
+import db from '../Firebase'
+import { collection} from "firebase/firestore";
+import {useParams} from 'react-router-dom'
+
+function Chat() {
+    
+  let channelId = useParams()
+
+  const goToChannel = ()=>{
+     const collectionRef = collection(db, "room");
+  }
 
 
-function chat() {
   return (
     <Container>
          <Header>
@@ -34,7 +44,7 @@ function chat() {
   )
 }
 
-export default chat
+export default Chat
 
 const Container = styled.div`
      display:grid;
