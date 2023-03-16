@@ -48,7 +48,8 @@ function Sidebar(props) {
              <div>
               Channels
              </div>
-             <AddOutlinedIcon onClick={addChannel}/>
+             <AddChannel onClick={addChannel}/>
+            
            </NewChannelContainer>
             <ChannelList>
               {
@@ -139,3 +140,7 @@ const Channel = styled.div`
            background: #350D36;
        }`
 
+
+const AddChannel = styled(AddOutlinedIcon)`
+     cursor:pointer;
+`
