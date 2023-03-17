@@ -52,7 +52,7 @@ function App() {
                <Main>
                   <Sidebar rooms={rooms}/>
                <Routes>
-                  <Route path="/room/:channelId" element={<Chat/>}/> 
+                  <Route path="/room/:channelId" element={<Chat user={user}/>}/> 
                   {/* <Route path="/" element={<Login/>}/> */}
                    <Route path="/" element={"Select or Create Channel"}/>
                </Routes>
@@ -71,7 +71,7 @@ const Container = styled.div`
      width:100%;
      height:100vh;
      display:grid;
-     grid-template-rows:38px auto;
+     grid-template-rows:38px minmax(0,1fr);
    `
 
 const Main = styled.div`

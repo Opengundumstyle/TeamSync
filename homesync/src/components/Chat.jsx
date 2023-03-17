@@ -6,12 +6,53 @@ import Chatinput from './Chatinput';
 import ChatMessage from './ChatMessage';
 import db from '../Firebase'
 import {useParams} from 'react-router-dom'
-import { getDoc,doc } from "firebase/firestore";
+import { getDoc,addDoc,doc,collection, query, orderBy,onSnapshot,Timestamp } from "firebase/firestore";
 
-function Chat() {
+
+function Chat({user}) {
     
 let {channelId} = useParams()
-const [channel,setChannel] = useState('')
+const [channel,setChannel] = useState('') 
+const [messages,setMessages] = useState([])
+
+const getMessages =()=> {
+
+     const messagesRef = collection(db,"room",channelId,"messages")
+     const roomMessagesQuery = query(messagesRef,orderBy('timestamp','asc'))
+     
+     onSnapshot(roomMessagesQuery,(querySnapshot)=>{
+            const messages = querySnapshot.docs.map((doc) => doc.data())
+          
+            setMessages(messages)
+        })
+     }
+
+const sendMessage =(text)=>{
+       const timestamp = Timestamp.now()
+       if(channelId){
+             let payload = {
+                 text:text,
+                 timestamp:timestamp, 
+                 user:user.name,
+                 userImage:user.photo
+             }
+
+             const messagesRef = collection(db, "room", channelId, "messages");
+          
+              addDoc(messagesRef, payload)
+               .then((docRef) => {
+                 console.log("Document written with ID: ", docRef.id);
+               })
+               .catch((error) => {
+                 console.error("Error adding document: ", error);
+               });
+
+             console.log(payload)
+       }
+}
+
+
+
 
 const getChannel = () => {
 
@@ -30,10 +71,14 @@ const getChannel = () => {
        });
 
      };
+
   
      useEffect(()=>{
           getChannel();
+          getMessages();
      },[channelId])
+   
+
 
   
   return (
@@ -41,7 +86,7 @@ const getChannel = () => {
          <Header>
               <Channel>
                    <ChannelName>
-                     #{channel.name}
+                     #{channel && channel.name}
                    </ChannelName>
                    <ChannelInfo>
                        We do what we do 
@@ -55,9 +100,21 @@ const getChannel = () => {
               </ChannelDetails>
          </Header>
          <MessageContainer>
-               <ChatMessage/>
+               {
+                 messages.length > 0 && 
+                 messages.map((data,index)=>(
+                    <ChatMessage
+                       text = {data.text}
+                       name =  {data.user}
+                       image = {data.userImage}
+                       timestamp = {data.timestamp}
+                     />
+                        
+                     ))
+               }
+               
          </MessageContainer>
-         <Chatinput/>
+         <Chatinput sendMessage = {sendMessage}/>
 
     </Container>
   )
@@ -67,7 +124,8 @@ export default Chat
 
 const Container = styled.div`
      display:grid;
-     grid-template-rows: 64px auto min-content;`
+     grid-template-rows: 64px auto min-content;
+     min-height:0;`
 
 const Header = styled.div`
       padding-left:20px;
@@ -78,7 +136,10 @@ const Header = styled.div`
       justify-content:space-between;
    `
 
-const MessageContainer = styled.div``
+const MessageContainer = styled.div`
+      display:flex;
+      flex-direction:column;
+      overflow-y:scroll`
 
 const Channel = styled.div``
 
