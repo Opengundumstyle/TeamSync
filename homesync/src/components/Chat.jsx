@@ -1,28 +1,47 @@
 
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import styled from 'styled-components'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Chatinput from './Chatinput';
 import ChatMessage from './ChatMessage';
 import db from '../Firebase'
-import { collection} from "firebase/firestore";
 import {useParams} from 'react-router-dom'
+import { getDoc,doc } from "firebase/firestore";
 
 function Chat() {
     
-  let channelId = useParams()
+let {channelId} = useParams()
+const [channel,setChannel] = useState('')
 
-  const goToChannel = ()=>{
-     const collectionRef = collection(db, "room");
-  }
+const getChannel = () => {
 
+     const documentRef = doc(db, "room", channelId);
+     
+     getDoc(documentRef)
+       .then((doc) => {
+         if (doc.exists()) {
+            setChannel(doc.data())
+         } else {
+           console.log("No such document!");
+         }
+       })
+       .catch((error) => {
+         console.log("Error getting document:", error);
+       });
 
+     };
+  
+     useEffect(()=>{
+          getChannel();
+     },[channelId])
+
+  
   return (
     <Container>
          <Header>
               <Channel>
                    <ChannelName>
-                      # Opengundumstyle
+                     #{channel.name}
                    </ChannelName>
                    <ChannelInfo>
                        We do what we do 
