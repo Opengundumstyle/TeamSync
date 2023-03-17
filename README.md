@@ -1,4 +1,4 @@
-# TeamSync
+# [TeamSync](https://teamsync-52949.web.app/)
 
 ## TechStack
 
